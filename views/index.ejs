@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Homepage</title>
+    </head>
+    <body>
+        <h1>Mini Message Board</h1>
+        <ul>
+            <% for (let i = 0; i < messages.length; i++) { %>
+                <li>
+                    <span> <%= messages[i].user %> </span>
+                    <span> <%= messages[i].text %> </span>
+                    <span> <%= messages[i].added.toLocaleString() %> </span>
+                    <a href="message/<%= i %>">
+                        <button>View More Info</button>
+                    </a>
+                </li>
+            <% } %>
+        </ul>
+        <a href="/new">
+            <button>New Message</button>
+        </a>
+    </body>
+</html>
