@@ -1,37 +1,48 @@
-const messages = require('../db/tempMessages');
+const db = require('../db/queries');
 
-
-
-function displayMessages(req, res) {
+async function displayMessages(req, res) {
+    const messages = await db.getAllMessages();
     res.render('index', { messages: messages });
 };
 
 function displayForm(req, res) {
-    res.render('form')
-}
+    res.render('form');
+};
 
-function addMessage(req, res) {
+async function addMessage(req, res) {
     const messageText = req.body.messageText;
     const messageName = req.body.messageName;
 
-    messages.push({ text: messageText, user: messageName, added: new Date() });
+    await db.addMessage(messageText, messageName);
     res.redirect('/');
-}
+};
 
-function displayMessageDetails(req, res) {
-    const selectedMessage = messages[req.params.id];
+async function displayMessageDetails(req, res) {
+    const id = req.params.id;
+    const message = await db.getMessageById(id);
 
-    if(!selectedMessage) {
-        res.status(404).send('Message Not Found');
-        return;
+    if (!message) {
+        return res.status(404).send('Message Not Found');
     };
 
-    res.render('message', { message: selectedMessage });
-}
+    res.render('message', { message: message });
+};
+
+async function deleteMessage(req, res) {
+    const id = req.params.id;
+    await db.deleteMessage(id);
+    res.redirect('/');
+};
+
+function displayError(req, res) {
+    res.render('404');
+};
 
 module.exports = {
     displayMessages,
     displayForm,
     addMessage,
     displayMessageDetails,
-}
+    deleteMessage,
+    displayError
+};

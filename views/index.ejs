@@ -7,11 +7,14 @@
         <ul>
             <% for (let i = 0; i < messages.length; i++) { %>
                 <li>
-                    <span> <%= messages[i].user %> </span>
+                    <span> <%= messages[i].name %> </span>
                     <span> <%= messages[i].text %> </span>
                     <span> <%= messages[i].added.toLocaleString() %> </span>
-                    <a href="message/<%= i %>">
+                    <a href="message/<%= messages[i].id %>">
                         <button>View More Info</button>
+                    </a>
+                    <a href="delete/<%= messages[i].id %>">
+                        <button>Delete Message</button>
                     </a>
                 </li>
             <% } %>
